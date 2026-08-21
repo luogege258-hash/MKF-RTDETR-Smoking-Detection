@@ -1,0 +1,37 @@
+# 论文第三章 MKF-RT-DETR-R18 结构与训练参数记录
+model:
+  name: MKF-RT-DETR-R18
+  backbone:
+    base: ResNet-18
+    unchanged_stage: stage2
+    amkf_stages: [stage3, stage4, stage5]
+    amkf:
+      expansion: 2.0
+      kernels: [3, 5, 7, 9, 11]
+      reduction: 16
+      stripe_kernel: 11
+  encoder:
+    input_level: S5
+    input_channels: 512
+    hidden_channels: 256
+    attention: EPLA
+    heads: 8
+    polar_power: 3
+    local_kernels: [3, 5, 7]
+  neck:
+    type: ESRFPN
+    inputs: [S3, S4, S5]
+    input_channels: [128, 256, 256]
+    output_channels: 256
+    esrca_kernels: [5, 11, 21]
+  decoder:
+    base: RT-DETR decoder and prediction head
+
+training:
+  optimizer: AdamW
+  learning_rate: 0.0001
+  weight_decay: 0.0001
+  batch_size: 16
+  epochs: 300
+  scheduler: cosine
+  augmentations: [random_flip, random_scale]

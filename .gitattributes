@@ -1,0 +1,2 @@
+# Store the large dataset archive with Git LFS rather than ordinary Git objects.
+dataset/*.rar filter=lfs diff=lfs merge=lfs -text

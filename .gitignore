@@ -1,0 +1,22 @@
+# Python cache and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Model artifacts
+weights/
+*.pt
+*.pth
+*.onnx
+*.engine
+
+# Runtime outputs
+uploads/
+results/
+*.db
+
+# Local configuration and editor files
+.env
+.vscode/
+.idea/
