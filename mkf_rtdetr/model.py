@@ -27,8 +27,7 @@ class MKFHybridEncoder(nn.Module):
         s5 = self.s5_projection(s5)
         batch, channels, height, width = s5.shape
         sequence = s5.flatten(2).transpose(1, 2)
-        # EPLA itself is the AIFI replacement defined by equations (8)--(10).
-        # Do not add a formula-external Transformer residual/LN/FFN shell here.
+        # Apply EPLA directly to the S5 token sequence according to Eqs. (8)--(10).
         sequence = self.epla(sequence, height, width)
         s5_enhanced = sequence.transpose(1, 2).reshape(batch, channels, height, width)
         return self.fpn(s3, s4, s5_enhanced)

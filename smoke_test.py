@@ -50,8 +50,8 @@ def main() -> None:
         torch.testing.assert_close(bifuse(main, context), expected)
 
         encoder = MKFHybridEncoder().eval()
-        require(not hasattr(encoder, "epla_norm"), "formula-external EPLA LayerNorm is still present")
-        require(not hasattr(encoder, "epla_ffn"), "formula-external EPLA FFN is still present")
+        require(not hasattr(encoder, "epla_norm"), "EPLA adapter must not add LayerNorm")
+        require(not hasattr(encoder, "epla_ffn"), "EPLA adapter must not add an FFN")
         require(
             encoder.epla.polar_projection.in_features == 4 * encoder.epla.dim,
             "four polarity branches are not concatenated",

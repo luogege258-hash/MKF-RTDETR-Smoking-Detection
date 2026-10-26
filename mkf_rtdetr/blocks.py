@@ -378,7 +378,7 @@ class BiFuse(nn.Module):
 
 
 class RefinementBlock(nn.Module):
-    """保持原 RCM 框架，仅以 ESRCA 替换其中的 RCA token mixer。"""
+    """采用 ESRCA 作为 token mixer 的 RCM 细化块。"""
 
     def __init__(
         self,
