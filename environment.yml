@@ -1,0 +1,13 @@
+name: mkf-rtdetr
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.10.13
+  - pytorch=2.1.2
+  - torchvision=0.16.2
+  - pytorch-cuda=12.1
+  - pip=23.3.2
+  - pip:
+      - -r requirements.txt

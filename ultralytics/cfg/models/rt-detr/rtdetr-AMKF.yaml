@@ -1,0 +1,46 @@
+# RT-DETR with AMKF (Adaptive Multi-Kernel Fusion) in backbone
+# E02: Backbone enhancement only
+
+nc: 80
+scales:
+  l: [1.00, 1.00, 1024]
+
+backbone:
+  - [-1, 1, ConvNormLayer, [32, 3, 2, None, False, 'relu']] # 0-P1/2
+  - [-1, 1, ConvNormLayer, [32, 3, 1, None, False, 'relu']] # 1
+  - [-1, 1, ConvNormLayer, [64, 3, 1, None, False, 'relu']] # 2
+  - [-1, 1, nn.MaxPool2d, [3, 2, 1]] # 3-P2/4
+
+  - [-1, 1, Blocks, [64, BasicBlock, 2, 2, 'relu']] # 4
+  - [-1, 1, ConvNormLayer, [128, 3, 2, None, False, 'relu']] # 5-P3/8 transition
+  - [-1, 2, AMKF, [128, True, 1, 0.5]] # 6 Stage3 C2f-AMKF
+  - [-1, 1, ConvNormLayer, [256, 3, 2, None, False, 'relu']] # 7-P4/16 transition
+  - [-1, 2, AMKF, [256, True, 1, 0.5]] # 8 Stage4 C2f-AMKF
+  - [-1, 1, ConvNormLayer, [512, 3, 2, None, False, 'relu']] # 9-P5/32 transition
+  - [-1, 2, AMKF, [512, True, 1, 0.5]] # 10 Stage5 C2f-AMKF
+
+head:
+  - [-1, 1, Conv, [256, 1, 1, None, 1, 1, False]]  # 11 input_proj.2
+  - [-1, 1, AIFI, [1024, 8]] # 12
+  - [-1, 1, Conv, [256, 1, 1]]  # 13, Y5
+
+  - [-1, 1, nn.Upsample, [None, 2, 'nearest']] # 14
+  - [8, 1, Conv, [256, 1, 1, None, 1, 1, False]]  # 15 AMKF-enhanced S4 projection
+  - [[-2, -1], 1, Concat, [1]] # 16
+  - [-1, 3, RepC3, [256, 0.5]]  # 17
+
+  - [-1, 1, Conv, [256, 1, 1]]   # 18, Y4
+  - [-1, 1, nn.Upsample, [None, 2, 'nearest']] # 19
+  - [6, 1, Conv, [256, 1, 1, None, 1, 1, False]]  # 20 AMKF-enhanced S3 projection
+  - [[-2, -1], 1, Concat, [1]]  # 21
+  - [-1, 3, RepC3, [256, 0.5]]    # X3 (22)
+
+  - [-1, 1, Conv, [256, 3, 2]]   # 23
+  - [[-1, 18], 1, Concat, [1]]  # 24
+  - [-1, 3, RepC3, [256, 0.5]]    # F4 (25)
+
+  - [-1, 1, Conv, [256, 3, 2]]   # 26
+  - [[-1, 13], 1, Concat, [1]]  # 27
+  - [-1, 3, RepC3, [256, 0.5]]    # F5 (28)
+
+  - [[22, 25, 28], 1, RTDETRDecoder, [nc, 256, 300, 4, 8, 3]]

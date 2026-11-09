@@ -1,0 +1,11 @@
+MKF-RT-DETR Smoking Detection
+Copyright (c) 2026 the MKF-RT-DETR authors.
+
+This repository contains a modified copy of Ultralytics version 8.0.201.
+Ultralytics source files retain their original copyright and AGPL-3.0 notices.
+The complete combined software is distributed under the GNU Affero General
+Public License version 3 or later.
+
+Project-specific additions include the AMKF, EPLA, ESRFPN, experiment
+configuration, dataset-validation, benchmarking, and table-export code. See the
+source-file headers and Git history for modification details.

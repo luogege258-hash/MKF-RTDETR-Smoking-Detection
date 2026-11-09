@@ -1,0 +1,11 @@
+# Smoking detection dataset used for all chapter-3 experiments.
+# Cigarette-ghnlk is stored next to this YAML file.
+path: Cigarette-ghnlk
+train: train/images
+val: valid/images
+test: test/images
+
+nc: 2
+names:
+  0: smoking
+  1: nosmoke

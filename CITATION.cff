@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software or dataset, please cite the associated article."
+title: "MKF-RT-DETR Smoking Detection"
+type: software
+authors:
+  - name: "MKF-RT-DETR authors"
+repository-code: "https://github.com/luogege258-hash/MKF-RTDETR-Smoking-Detection"
+license: AGPL-3.0-or-later
+version: 1.0.0
+date-released: 2026-11-09

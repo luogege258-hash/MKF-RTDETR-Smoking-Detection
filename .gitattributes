@@ -1,2 +1,16 @@
-# Store the large dataset archive with Git LFS rather than ordinary Git objects.
-dataset/*.rar filter=lfs diff=lfs merge=lfs -text
+# Keep large binary research artifacts out of ordinary Git objects.
+dataset/Cigarette-ghnlk/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+weights/*.pt filter=lfs diff=lfs merge=lfs -text
+
+# Normalize source files across Linux and Windows.
+*.py text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.sh text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.json text eol=lf
+*.csv text eol=lf
+
+# Preserve released dataset bytes exactly so MANIFEST.sha256 is platform-stable.
+dataset/Cigarette-ghnlk/** -text

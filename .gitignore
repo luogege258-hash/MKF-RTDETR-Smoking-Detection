@@ -1,22 +1,44 @@
-# Python cache and virtual environments
+# Python caches and environments
 __pycache__/
 *.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
 .venv/
 venv/
+env/
 
-# Model artifacts
-weights/
+# Build artifacts
+build/
+dist/
+*.so
+
+# Training and runtime outputs
+runs/
+logs/
+wandb/
+uploads/
+*.db
+
+# Model artifacts are ignored except for the documented release checkpoint.
 *.pt
 *.pth
 *.onnx
 *.engine
+!weights/
+weights/*
+!weights/README.md
+!weights/E04_full_best.pt
 
-# Runtime outputs
-uploads/
-results/
-*.db
+# Compact reproduction summaries may be committed.
+results/*
+!results/README.md
+!results/*.json
+!results/*.csv
+!results/*.md
 
 # Local configuration and editor files
 .env
 .vscode/
 .idea/
+.DS_Store
